@@ -21,7 +21,6 @@ module SmsAeroApi
       '@gate.smsaero.ru/v2/',
       '@gate.smsaero.org/v2/',
       '@gate.smsaero.net/v2/',
-      '@gate.smsaero.uz/v2/'
     ]
     SIGNATURE = 'SMS Aero'
     TYPE_SEND = 2
@@ -57,6 +56,23 @@ module SmsAeroApi
 
     def sms_status(sms_id)
       request('sms/status', { 'id' => sms_id })
+    end
+
+    def send_telegram(number, code, sign = nil, text = nil)
+      num, number = get_num(number)
+      data = {
+        num => number,
+        'code' => code.to_i
+      }
+      
+      data['sign'] = sign if sign
+      data['text'] = text if text
+      
+      request('telegram/send', data)
+    end
+
+    def telegram_status(telegram_id)
+      request('telegram/status', { 'id' => telegram_id.to_i })
     end
 
     def sms_list(number = nil, text = nil, page = nil)
