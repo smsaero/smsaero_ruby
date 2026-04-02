@@ -75,6 +75,18 @@ module SmsAeroApi
       request('telegram/status', { 'id' => telegram_id.to_i })
     end
 
+    def send_mobile_id(number, sign, callback_url)
+      request('mobile-id/send', {'number' => number.to_s, 'sign' => sign, 'callbackUrl' => callback_url})
+    end
+
+    def mobile_id_status(req_id)
+      request('mobile-id/status', {'id' => req_id.to_i})
+    end
+
+    def verify_mobile_id(req_id, code, sign)
+      request('mobile-id/verify', {'id' => req_id.to_i, 'code' => code.to_s, 'sign' => sign})
+    end
+
     def sms_list(number = nil, text = nil, page = nil)
       data = {}
       if number
